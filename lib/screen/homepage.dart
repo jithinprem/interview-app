@@ -17,6 +17,11 @@ class _HomePageState extends State<HomePage> {
   var ind = 0;
   var _vis = false;
   var txtbut = 'SHOW';
+  var buttonfield = false;
+  var ansfield = false;
+  var quefield = false;
+  TextEditingController que = TextEditingController();
+  TextEditingController ans = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +48,16 @@ class _HomePageState extends State<HomePage> {
             surfaceTintColor: Colors.lime,
             shadowColor: Colors.lime,
             leading: Icon(Icons.menu),
+            actions: [
+              IconButton(onPressed: (){
+                //set all the items to invisible and show text field
+                setState((){
+                  ansfield = !ansfield;
+                  quefield= !quefield;
+                  buttonfield = !buttonfield;
+                });
+              }, icon: Icon(Icons.add)),
+            ],
           ),
           body: Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
@@ -55,6 +70,56 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       SizedBox(
                         height: 30,
+                      ),
+                      Visibility(
+                        visible: quefield,
+                          child: TextField(
+                            controller: que,
+                            minLines: 3,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                              hintText: 'new question',
+                            ),
+                          ),
+                      ),
+                      Visibility(
+                        visible: ansfield,
+                        child: TextField(
+                          controller: que,
+                          minLines: 27,
+                          maxLines: 28,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                            hintText: 'solution',
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                          visible: buttonfield,
+                          child: TextButton(
+                            onPressed: () {
+                              print('submit');
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 50),
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Color(0xffF5F0BB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              width: double.infinity,
+                              child: const Center(
+                                  child: Text(
+                                    'SUBMIT',
+                                    style: TextStyle(color: Colors.black54, fontFamily: 'Rubik', fontWeight: FontWeight.bold),
+                                  )),
+                            ),
+                          ),
                       ),
                       Text(
                         computerNetwork[ind * 2],
@@ -117,6 +182,18 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(color: Colors.black54, fontFamily: 'Rubik', fontWeight: FontWeight.bold),
                               )),
                           width: double.infinity,
+                        ),
+                      ),
+                      ExcludeSemantics(
+                        excluding: true,
+                        child: Chip(
+                          avatar: CircleAvatar(
+                            backgroundColor: Colors.grey.shade800,
+                            child: const Text('AB'),
+                          ),
+                          label: const Text('Aaron Burr'),
+                          autofocus: false,
+                          onDeleted: (){print('hello');},
                         ),
                       ),
                     ],
