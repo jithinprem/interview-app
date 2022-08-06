@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                       Visibility(
                         visible: ansfield,
                         child: TextField(
-                          controller: que,
+                          controller: ans,
                           minLines: 27,
                           maxLines: 28,
                           decoration: const InputDecoration(
@@ -103,7 +103,10 @@ class _HomePageState extends State<HomePage> {
                           visible: buttonfield,
                           child: TextButton(
                             onPressed: () {
-                              print('submit');
+                              String q1 = que.text;
+                              String a1 = ans.text;
+                              computerNetwork.add(computerNetwork.length.toString()+ ') ' +q1);
+                              computerNetwork.add(a1);
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: 50),
@@ -184,18 +187,7 @@ class _HomePageState extends State<HomePage> {
                           width: double.infinity,
                         ),
                       ),
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Chip(
-                          avatar: CircleAvatar(
-                            backgroundColor: Colors.grey.shade800,
-                            child: const Text('AB'),
-                          ),
-                          label: const Text('Aaron Burr'),
-                          autofocus: false,
-                          onDeleted: (){print('hello');},
-                        ),
-                      ),
+
                     ],
                   ),
                 ),
