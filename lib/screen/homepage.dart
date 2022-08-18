@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:interview/actions/a_database.dart';
 import 'package:interview/question.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -107,6 +109,9 @@ class _HomePageState extends State<HomePage> {
                               String a1 = ans.text;
                               computerNetwork.add(computerNetwork.length.toString()+ ') ' +q1);
                               computerNetwork.add(a1);
+                              // add to database call a function
+                              print('adding to database');
+                              AddtoDataBase(q1, a1, 'cn');
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: 50),
@@ -181,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Center(
                               child: Text(
-                                'NEXT QUESTION',
+                                'NEXT',
                                 style: TextStyle(color: Colors.black54, fontFamily: 'Rubik', fontWeight: FontWeight.bold),
                               )),
                           width: double.infinity,
