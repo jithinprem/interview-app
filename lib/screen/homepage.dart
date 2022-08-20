@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:interview/actions/a_database.dart';
+import 'package:interview/actions/add_mannual_data.dart';
+import 'package:interview/actions/delete_entry.dart';
+import 'package:interview/actions/get_home_question.dart';
 import 'package:interview/question.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:interview/actions/get_no_items.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,8 +16,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  getQuestion(index) {
-    return (computerNetwork[index * 2 - 1]);
+
+  getval() async{
+    GetQue().get_home_question('cn').then((List l){
+      allque = l;
+    });
+    setState((){
+      presentque = allque[0]['question'];
+      presentans = allque[0]['answer'];
+    });
+    return allque;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get_total_items().then((ret_count){
+      setState((){
+        totalcount = ret_count;
+        print('the total item changed to $totalcount');
+      });
+    });
+    print('the total items is set to $totalcount');
+    getval();
+
   }
 
   var ind = 0;
@@ -22,11 +48,18 @@ class _HomePageState extends State<HomePage> {
   var buttonfield = false;
   var ansfield = false;
   var quefield = false;
+  String currsubject = 'cn';
+  var select_que =1;   // later do it by reinforcement learning
+  String presentque = 'welcome to preparenow';
+  String presentans = 'learn for your interviews, viva\'s with us..\nEnter next to view your questions';
+  List allque = [];
+
   TextEditingController que = TextEditingController();
   TextEditingController ans = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       theme: ThemeData.dark().copyWith(primaryColor: Colors.lightGreen),
       home: SafeArea(
@@ -49,7 +82,24 @@ class _HomePageState extends State<HomePage> {
             ),
             surfaceTintColor: Colors.lime,
             shadowColor: Colors.lime,
-            leading: Icon(Icons.menu),
+            leading: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: (){
+                // delete
+                print('this question is going to be deleted');
+                print(allque[select_que]['id']);
+                print(allque[select_que]['question']);
+                int deleteque = allque[select_que]['id'];
+                setState((){
+                  print('setstate called');
+                  select_que = (select_que + 1)%(totalcount-2);
+                  presentque = allque[select_que]['question'];
+                  presentans = allque[select_que]['answer'];
+                });
+                DeleteEntry().delete_using_id(deleteque);
+                getval();
+              },
+            ),
             actions: [
               IconButton(onPressed: (){
                 //set all the items to invisible and show text field
@@ -62,7 +112,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           body: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,14 +154,17 @@ class _HomePageState extends State<HomePage> {
                       Visibility(
                           visible: buttonfield,
                           child: TextButton(
-                            onPressed: () {
+                            onPressed: () async{
                               String q1 = que.text;
                               String a1 = ans.text;
                               computerNetwork.add(computerNetwork.length.toString()+ ') ' +q1);
                               computerNetwork.add(a1);
                               // add to database call a function
                               print('adding to database');
-                              AddtoDataBase(q1, a1, 'cn');
+                              AddtoDataBase().addData(q1, a1, currsubject).then((List l) async{
+                                await getval();
+                              });
+
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: 50),
@@ -130,18 +183,19 @@ class _HomePageState extends State<HomePage> {
                           ),
                       ),
                       Text(
-                        computerNetwork[ind * 2],
-                        style: TextStyle(
+                        //currque[0]['question'],
+                        presentque,
+                        style: const TextStyle(
                             color: Colors.lime, fontFamily: 'Rubik'),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Visibility(
                         visible: _vis,
-                        child: Text(computerNetwork[ind * 2 + 1]),
+                        child: Text(presentans),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextButton(
@@ -163,19 +217,20 @@ class _HomePageState extends State<HomePage> {
                             color: Color(0xffF5F0BB),
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          width: double.infinity,
                           child: Center(
                               child: Text(
                             txtbut,
                             style: TextStyle(color: Colors.black54),
                           )),
-                          width: double.infinity,
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            var p = computerNetwork.length-1;
-                            ind = (ind +1)%p;
+                        onPressed: () async{
+                          setState((){
+                            select_que = (select_que +1)%(allque.length+1);
+                            presentque = allque[select_que]['question'];
+                            presentans = allque[select_que]['answer'];
                           });
                         },
                         child: Container(
@@ -184,12 +239,34 @@ class _HomePageState extends State<HomePage> {
                             color: Color(0xffF5F0BB),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Center(
+                          width: double.infinity,
+                          child: const Center(
                               child: Text(
                                 'NEXT',
                                 style: TextStyle(color: Colors.black54, fontFamily: 'Rubik', fontWeight: FontWeight.bold),
                               )),
-                          width: double.infinity,
+                        ),
+                      ),
+
+                      Visibility(
+                        visible: false,
+                        child: TextButton(
+                          onPressed: () async{
+                            AddMannualData().AddData();
+                          },
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Color(0xffF5F0BB),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                                child: Text(
+                                  'Fetch question',
+                                  style: TextStyle(color: Colors.black54, fontFamily: 'Rubik', fontWeight: FontWeight.bold),
+                                )),
+                            width: double.infinity,
+                          ),
                         ),
                       ),
 

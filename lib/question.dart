@@ -5,15 +5,15 @@ A network is a collection of devices connected to each other to allow the sharin
 Example of a network is an internet. An internet connects the millions of people across the world.''',
 
 '''2) What do you mean by network topology?''',
-'''Network topology specifies the layout of a computer network. It shows how devices and cables are connected to each other. The types of topologies are:
+'''Network topology specifies the layout of a computer network. It shows how devices and cables are connected to each other. The types of topologies are
 
-Bus:
+Bus
 
 Networking Interview Questions
 Bus topology is a network topology in which all the nodes are connected to a single cable known as a central cable or bus.
 It acts as a shared communication medium, i.e., if any device wants to send the data to other devices, then it will send the data over the bus which in turn sends the data to all the attached devices.
 Bus topology is useful for a small number of devices. As if the bus is damaged then the whole network fails.
-Star:
+Star
 
 Networking Interview Questions
 Star topology is a network topology in which all the nodes are connected to a single device known as a central device.
@@ -34,9 +34,9 @@ Mesh
 Networking Interview Questions
 Mesh topology is a network topology in which all the nodes are individually connected to other nodes.
 It does not need any central switch or hub to control the connectivity among the nodes.
-Mesh topology is categorized into two parts:
-Fully connected mesh topology: In this topology, all the nodes are connected to each other.
-Partially connected mesh topology: In this topology, all the nodes are not connected to each other.
+Mesh topology is categorized into two parts
+Fully connected mesh topology In this topology, all the nodes are connected to each other.
+Partially connected mesh topology In this topology, all the nodes are not connected to each other.
 It is a robust as a failure in one cable will only disconnect the specified computer connected to this cable.
 Mesh topology is rarely used as installation and configuration are difficult when connectivity gets more.
 Cabling cost is high as it requires bulk wiring.
@@ -47,7 +47,7 @@ Tree topology is a combination of star and bus topology. It is also known as the
 In tree topology, all the star networks are connected to a single bus.
 Ethernet protocol is used in this topology.
 In this, the whole network is divided into segments known as star networks which can be easily maintained. If one segment is damaged, but there is no effect on other segments.
-Tree topology depends on the "main bus," and if it breaks, then the whole network gets damaged.
+Tree topology depends on the main bus, and if it breaks, then the whole network gets damaged.
 Hybrid
 
 A hybrid topology is a combination of different topologies to form a resulting topology.
@@ -55,7 +55,7 @@ If star topology is connected with another star topology, then it remains star t
 It provides flexibility as it can be implemented in a different network environment.
 The weakness of a topology is ignored, and only strength will be taken into consideration.''',
 '''3) What are the advantages of Distributed Processing?''',
-'''A list of advantages of distributed processing:
+'''A list of advantages of distributed processing
 
 Secure
 Support Encapsulation
@@ -65,18 +65,18 @@ Security through redundancy
 Collaborative Processing''',
 
 '''4) What is the criteria to check the network reliability?''',
-'''Network reliability: Network reliability means the ability of the network to carry out the desired operation through a network such as communication through a network.
+'''Network reliability Network reliability means the ability of the network to carry out the desired operation through a network such as communication through a network.
 
 Network reliability plays a significant role in the network functionality. The network monitoring systems and devices are the essential requirements for making the network reliable.The network monitoring system identifies the problems that are occurred in the network while the network devices ensure that data should reach the appropriate destination.
 
-The reliability of a network can be measured by the following factors:
+The reliability of a network can be measured by the following factors
 
-Downtime: The downtime is defined as the required time to recover.
-Failure Frequency: It is the frequency when it fails to work the way it is intended.
-Catastrophe: It indicates that the network has been attacked by some unexpected event such as fire, earthquake.''',
+Downtime- The downtime is defined as the required time to recover.
+Failure Frequency It is the frequency when it fails to work the way it is intended.
+Catastrophe- It indicates that the network has been attacked by some unexpected event such as fire, earthquake.''',
 
 '''5) Which are the different factors that affect the security of a network?''',
-'''There are mainly two security affecting factors:
+'''There are mainly two security affecting factors-
 
 Unauthorized Access
 Viruses''',
@@ -126,7 +126,7 @@ DNS is an internet which maps the domain names to their associated IP addresses.
 Without DNS, users must know the IP address of the web page that you wanted to access.
 Working of DNS:
 
-If you want to visit the website of "javaTpoint", then the user will type "https://www.javatpoint.com" into the address bar of the web browser. Once the domain name is entered, then the domain name system will translate the domain name into the IP address which can be easily interpreted by the computer. Using the IP address, the computer can locate the web page requested by the user.
+If you want to visit the website of javaTpoint, then the user will type https://www.javatpoint.com into the address bar of the web browser. Once the domain name is entered, then the domain name system will translate the domain name into the IP address which can be easily interpreted by the computer. Using the IP address, the computer can locate the web page requested by the user.
 ''',
 
 '''13) What is DNS forwarder?''',
@@ -307,9 +307,8 @@ The most widely used application protocol is HTTP(Hypertext transfer protocol ).
 '''The OSI physical layer is used to convert data bits into electrical signals and vice versa. On this layer, network devices and cable types are considered and setup.
 ''',
 
-'''33) Explain the functionality of OSI session layer?
-
-OSI session layer provides the protocols and means for two devices on the network to communicate with each other by holding a session. This layer is responsible for setting up the session, managing information exchange during the session, and tear-down process upon termination of the session.
+'''33) Explain the functionality of OSI session layer?''',
+'''OSI session layer provides the protocols and means for two devices on the network to communicate with each other by holding a session. This layer is responsible for setting up the session, managing information exchange during the session, and tear-down process upon termination of the session.
 ''',
 '''34) What is the maximum length allowed for a UTP cable?
 ''',
@@ -331,12 +330,12 @@ This protocol can be used by small or medium-sized networks.
 
 '''37) What is netstat?
 ''',
-'''The "netstat" is a command line utility program. It gives useful information about the current TCP/IP setting of a connection.
+'''The netstat is a command line utility program. It gives useful information about the current TCP/IP setting of a connection.
 ''',
 
 '''38) What do you understand by ping command?
 ''',
-'''The "ping" is a utility program that allows you to check the connectivity between the network devices. You can ping devices using its IP address or name.
+'''The ping is a utility program that allows you to check the connectivity between the network devices. You can ping devices using its IP address or name.
 ''',
 
 '''39) What is Sneakernet?
