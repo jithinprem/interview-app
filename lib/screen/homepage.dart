@@ -21,10 +21,14 @@ class _HomePageState extends State<HomePage> {
   getval() async {
     GetQue().get_home_question(circle_avatars[_value]).then((List l) {
       allque = l;
+      print('this is the obtained list of que');
+      print(l);
     });
     setState(() {
-      presentque = allque[0]['question'];
-      presentans = allque[0]['answer'];
+      // presentque = allque[0]['question'];
+      // presentans = allque[0]['answer'];
+      presentque = 'Welcome, it\'s time to learn';
+      presentans = 'Click Next to continue';
     });
     return allque;
   }
@@ -38,6 +42,7 @@ class _HomePageState extends State<HomePage> {
         totalcount = ret_count;
         print('the total item changed to $totalcount');
       });
+      return totalcount;
     });
     print('the total items is set to $totalcount');
     getval();
@@ -87,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             surfaceTintColor: Colors.lime,
             shadowColor: Colors.lime,
             leading: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 // delete
                 print('this question is going to be deleted');
@@ -96,7 +101,8 @@ class _HomePageState extends State<HomePage> {
                 int deleteque = allque[select_que]['id'];
                 setState(() {
                   print('setstate called');
-                  select_que = (select_que + 1) % (totalcount - 2);
+                  select_que = (select_que + 1) % (totalcount) -1;
+                  print('the selected question is $select_que');
                   presentque = allque[select_que]['question'];
                   presentans = allque[select_que]['answer'];
                 });
@@ -123,7 +129,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Wrap(
@@ -140,6 +146,8 @@ class _HomePageState extends State<HomePage> {
                         onSelected: (bool selected) {
                           setState(() {
                             _value = selected ? index : 0;
+                            currsubject = circle_avatars[_value];
+                            print('the value selected is : $currsubject');
                             getval();
                             // set the subject and call addData again
                           });
@@ -160,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                           controller: que,
                           minLines: 3,
                           maxLines: 5,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -188,8 +196,8 @@ class _HomePageState extends State<HomePage> {
                         visible: buttonfield,
                         child: TextButton(
                           onPressed: () async {
-                            String q1 = que.text;
-                            String a1 = ans.text;
+                            String q1 = 'Q) ${que.text}';
+                            String a1 = 'A) ${ans.text}';
                             computerNetwork.add(
                                 computerNetwork.length.toString() + ') ' + q1);
                             computerNetwork.add(a1);
@@ -215,7 +223,8 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                   color: Colors.black54,
                                   fontFamily: 'Rubik',
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold
+                              ),
                             )),
                           ),
                         ),
@@ -265,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                       TextButton(
                         onPressed: () async {
                           setState(() {
-                            select_que = (select_que + 1) % (allque.length + 1);
+                            select_que = (select_que + 1) % (allque.length);
                             presentque = allque[select_que]['question'];
                             presentans = allque[select_que]['answer'];
                           });
@@ -287,11 +296,13 @@ class _HomePageState extends State<HomePage> {
                           )),
                         ),
                       ),
+
+                      // very important part of program that is used to implement the database updataion
                       Visibility(
                         visible: false,
                         child: TextButton(
                           onPressed: () async {
-                            AddMannualData().AddData();
+                            AddMannualData(2).AddData('py');
                           },
                           child: Container(
                             height: 40,
