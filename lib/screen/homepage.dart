@@ -6,8 +6,9 @@ import 'package:interview/actions/get_home_question.dart';
 import 'package:interview/question.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:interview/actions/get_no_items.dart';
-
+import 'dart:math';
 import '../stored_constant/stored_constant.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   int _value = 0;
+  int queno =1;
   List<String> list_subjects = ['CompNet', 'Pyth', 'Java', 'DBMS', 'OpSys', 'DataSt', 'Cprog'];
   List<String> circle_avatars = ['cn', 'py', 'j', 'db', 'os', 'ds', 'cp'];
   var ind = 0;
@@ -62,6 +64,8 @@ class _HomePageState extends State<HomePage> {
   String presentque = 'welcome to preparenow';
   String presentans =
       'learn for your interviews, viva\'s with us..\nEnter next to view your questions';
+  String presentid = '';
+  String presentpt = '';
   List allque = [];
 
   TextEditingController que = TextEditingController();
@@ -231,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         //currque[0]['question'],
-                        presentque,
+                        presentque ,
                         style: const TextStyle(
                             color: Colors.lime, fontFamily: 'Rubik'),
                       ),
@@ -246,11 +250,16 @@ class _HomePageState extends State<HomePage> {
                         height: 20,
                       ),
                       TextButton(
-                        onPressed: () {
+                        onPressed: (){
                           setState(() {
                             if (txtbut == 'SHOW') {
                               _vis = true;
                               txtbut = 'HIDE';
+                              // update the question with some reward in the data base
+                              // new_point = old_point + 0.5/old_point
+                              print('updating the points');
+                              AddtoDataBase().UpdateData(presentid);
+
                             } else if (txtbut == 'HIDE') {
                               _vis = false;
                               txtbut = 'SHOW';
@@ -274,9 +283,42 @@ class _HomePageState extends State<HomePage> {
                       TextButton(
                         onPressed: () async {
                           setState(() {
-                            select_que = (select_que + 1) % (allque.length);
-                            presentque = allque[select_que]['question'];
-                            presentans = allque[select_que]['answer'];
+                            // select question based on points..
+                            // iterate through the list and sort them in inc order with 1/2 prob select among the top 10%
+                            // with 1/2 prob select among the 90
+                            print('allquestion is printedpppppppp');
+                            var new_lis = [];
+                            for (var values in allque){
+                              new_lis.add(values);
+                            }
+                            try{
+                              new_lis.sort((a, b) => a['points'].compareTo(b['points']));
+                            }catch(e){
+                              print(e);
+                              print('beautiful exception');
+                            }
+                            print('allquestion is printed');
+                            var rng = Random();
+                            int sel2 = rng.nextInt(2);
+                            if(sel2 == 1){
+                              // select from the last 10
+                              int que_back = rng.nextInt(10)+1;
+                              presentque = new_lis[allque.length-que_back]['question'];
+                              presentans = new_lis[allque.length-que_back]['answer'];
+                              presentid = new_lis[allque.length-que_back]['id'].toString();
+                              presentpt = new_lis[allque.length-que_back]['points'].toString();
+
+                            }
+                            else{
+                              // select from all
+                              int que_back = rng.nextInt(allque.length);
+                              presentque = new_lis[que_back]['question'];
+                              presentans = new_lis[que_back]['answer'];
+                              presentid = new_lis[que_back]['id'].toString();
+                              presentpt = new_lis[que_back]['points'].toString();
+
+                            }
+
                           });
                         },
                         child: Container(

@@ -41,4 +41,22 @@ class AddtoDataBase {
     return list;
 
   }
+
+  UpdateData(passed_id) async{
+    print('we are updating.....');
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'demo.db');
+
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (Database quefile, int version) async {
+          await quefile.execute(
+              'create table quetable (id integer, question text, answer text, subject text, points integer)');
+        });
+    // TODO: pass passed_id as string
+    int count = await database.rawUpdate(
+        'UPDATE quetable SET points = points + 1 WHERE id = $passed_id',
+        );
+    print('updated: $count');
+  }
+
 }

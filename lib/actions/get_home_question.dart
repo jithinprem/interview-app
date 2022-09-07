@@ -13,7 +13,7 @@ class GetQue{
         });
 
     que_sub = que_sub.toString();
-    List<Map> list = await database.rawQuery('select question, answer, id from quetable where subject = "$que_sub"');
+    List<Map> list = await database.rawQuery('select question, answer, id, points from quetable where subject = "$que_sub"');
     return list;
   }
 }
